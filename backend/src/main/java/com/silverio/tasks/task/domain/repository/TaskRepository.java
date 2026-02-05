@@ -12,4 +12,6 @@ public interface TaskRepository {
   Optional<Task> findById(TaskId id);
   List<Task> findAll(TaskStatus status);
   void deletePhysical(TaskId id);
+  List<Task> findAllByDeletedFalse();
+  List<Task> findAllByStatusAndDeletedFalse(TaskStatus status);
 }

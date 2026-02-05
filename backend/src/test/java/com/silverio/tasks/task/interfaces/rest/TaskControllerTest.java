@@ -191,17 +191,6 @@ class TaskControllerTest {
     verify(service).deleteLogical(id);
   }
 
-  // ---------- DELETE físico /api/tarefas/{id}/hard ----------
-  @Test
-  void delete_fisico_deve_retornar_200() throws Exception {
-    var id = UUID.randomUUID();
-
-    mvc.perform(delete("/api/tarefas/{id}/hard", id))
-      .andExpect(status().isOk());
-
-    verify(service).deletePhysical(id);
-  }
-
   // ---------- helpers ----------
   private static Task task(UUID uuid, String title, String description,
                            TaskStatus status, TaskPriority priority, LocalDateTime dueDate) {

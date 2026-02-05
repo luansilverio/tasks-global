@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface JpaTaskRepository extends JpaRepository<JpaTaskEntity, UUID> {
   List<JpaTaskEntity> findByStatus(TaskStatus status);
+  List<JpaTaskEntity> findAllByDeletedFalse();
+  List<JpaTaskEntity> findAllByStatusAndDeletedFalse(TaskStatus status);
 }

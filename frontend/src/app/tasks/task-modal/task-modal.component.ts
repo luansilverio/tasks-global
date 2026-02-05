@@ -10,6 +10,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Task } from '../task.model';
+import { TaskService } from '../task.service';
 
 @Component({
   selector: 'app-task-modal',
@@ -46,6 +47,7 @@ export class TaskModalComponent {
   });
 
   constructor(
+    private readonly taskService: TaskService,
     private fb: FormBuilder,
     private ref: MatDialogRef<TaskModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Task | null
@@ -140,5 +142,29 @@ export class TaskModalComponent {
 
   cancel() {
     this.ref.close(null);
+  }
+
+  // dentro do componente
+  confirmDelete = false;
+
+  onAskDelete(): void {
+    this.confirmDelete = true;
+  }
+
+  onCancelDelete(): void {
+    this.confirmDelete = false;
+  }
+
+  onDeleteConfirm(): void {
+    const id = this.data?.id;
+    if (!id) return;
+
+    this.taskService.delete(id).subscribe({
+      next: () => this.ref.close({ deleted: true }),
+      error: () => {
+        // opcional: snack bar
+        this.confirmDelete = false;
+      }
+    });
   }
 }

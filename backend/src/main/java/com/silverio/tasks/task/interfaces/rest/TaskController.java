@@ -75,15 +75,6 @@ public class TaskController {
     service.deleteLogical(id);
   }
 
-  @Operation(summary = "Excluir tarefa (física)", description = "Remove fisicamente o registro do banco (opcional).")
-  @ApiResponses(value = {
-      @ApiResponse(responseCode = "200", description = "Tarefa removida fisicamente com sucesso")
-  })
-  @DeleteMapping("/{id}/hard")
-  public void deletePhysical(@PathVariable UUID id) {
-    service.deletePhysical(id);
-  }
-
   private TaskResponse toResponse(Task t) {
     var createdLocal = LocalDateTime.ofInstant(t.getCreatedAt(), ZONE_BR);
     return new TaskResponse(

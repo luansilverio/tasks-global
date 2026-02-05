@@ -50,7 +50,41 @@
 
 </div>
 
-<div mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()">Cancelar</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Salvar</button>
+<div mat-dialog-actions class="modal-actions">
+  <div class="actions-left" *ngIf="isEditMode">
+    <!-- Passo 1: botão Excluir -->
+    <button
+      *ngIf="!confirmDelete"
+      mat-stroked-button
+      color="warn"
+      type="button"
+      (click)="onAskDelete()">
+      Excluir
+    </button>
+
+    <!-- Passo 2: confirmação -->
+    <div class="delete-confirm" *ngIf="confirmDelete">
+      <span class="delete-text">Confirmar exclusão?</span>
+
+      <button
+        mat-raised-button
+        color="warn"
+        type="button"
+        (click)="onDeleteConfirm()">
+        Confirmar
+      </button>
+
+      <button
+        mat-button
+        type="button"
+        (click)="onCancelDelete()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <div class="actions-right">
+    <button mat-button (click)="cancel()" *ngIf="!confirmDelete">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid" *ngIf="!confirmDelete">Salvar</button>
+  </div>
 </div>
