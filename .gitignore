@@ -1,0 +1,85 @@
+# =========================
+# Gerais
+# =========================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+
+# =========================
+# IDEs / Editores
+# =========================
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# =========================
+# Java / Maven / Spring Boot (backend)
+# =========================
+target/
+**/target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Logs Spring
+logs/
+*.log
+
+# =========================
+# Node / Angular (frontend)
+# =========================
+node_modules/
+**/node_modules/
+
+# Angular build output
+dist/
+**/dist/
+
+# Angular cache (Angular 17+ usa bastante)
+.angular/
+**/.angular/
+
+# Vite cache (Angular usa Vite em dev server recente)
+.vite/
+**/.vite/
+
+# Coverage / testes
+coverage/
+**/coverage/
+
+# Parcel/webpack/rollup caches (por garantia)
+.cache/
+**/.cache/
+
+# npm / yarn / pnpm caches
+.npm/
+.pnpm-store/
+.yarn/
+.yarn-cache/
+
+# =========================
+# Ambiente / Config local
+# =========================
+.env
+.env.*
+!.env.example
+
+# =========================
+# Docker / volumes locais (se existir)
+# =========================
+docker-data/
+pgdata/
+**/pgdata/
+
+# =========================
+# Arquivos gerados por SO / tooling
+# =========================
+*.pid
+*.seed
+*.orig
