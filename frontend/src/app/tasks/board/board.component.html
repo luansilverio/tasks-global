@@ -1,0 +1,180 @@
+<div class="board-page">
+
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand-logo" src="assets/logo.png" alt="Logo" />
+      <div class="brand-text">
+        <div class="brand-title">Tarefas</div>
+        <div class="brand-subtitle">Quadro Kanban</div>
+      </div>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="openNewTask()">
+      Nova tarefa
+    </button>
+  </header>
+
+  <div class="board">
+
+    <!-- TODO -->
+    <section class="column todo">
+      <div class="column-header" (click)="toggleColumn('TODO')">
+        <h3 class="column-title">A FAZER</h3>
+
+        <div class="column-count">
+          <span class="count-pill">{{ todo.length }}</span>
+          <span>{{ isCollapsed('TODO') ? '▸' : '▾' }}</span>
+        </div>
+      </div>
+
+      <div
+        class="column-body"
+        [@collapse]="isCollapsed('TODO') ? 'closed' : 'open'"
+        cdkDropList
+        id="todoList"
+        [cdkDropListData]="todo"
+        [cdkDropListConnectedTo]="['doingList', 'doneList']"
+        [cdkDropListDisabled]="isCollapsed('TODO')"
+        (cdkDropListDropped)="drop($event, 'TODO')"
+      >
+        <div
+          class="card"
+          *ngFor="let task of todo; trackBy: trackById"
+          cdkDrag
+          [cdkDragData]="task"
+          (click)="openEdit(task)"
+        >
+          <!-- ✅ handle do drag -->
+          <button
+            class="drag-handle"
+            type="button"
+            cdkDragHandle
+            (click)="$event.stopPropagation()"
+            aria-label="Arrastar tarefa"
+            title="Arrastar"
+          >
+            ⋮⋮
+          </button>
+
+          <p class="card-title">{{ task.title }}</p>
+          <p class="card-desc" *ngIf="task.description">{{ task.description }}</p>
+
+          <div class="card-meta">
+            <span class="priority-badge" [ngClass]="priorityClass(task.priority)">
+              {{ priorityLabel(task.priority) }}
+            </span>
+
+            <span class="due-chip">{{ formatDueDate(task.dueDate) }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOING -->
+    <section class="column doing">
+      <div class="column-header" (click)="toggleColumn('DOING')">
+        <h3 class="column-title">EM ANDAMENTO</h3>
+
+        <div class="column-count">
+          <span class="count-pill">{{ doing.length }}</span>
+          <span>{{ isCollapsed('DOING') ? '▸' : '▾' }}</span>
+        </div>
+      </div>
+
+      <div
+        class="column-body"
+        [@collapse]="isCollapsed('DOING') ? 'closed' : 'open'"
+        cdkDropList
+        id="doingList"
+        [cdkDropListData]="doing"
+        [cdkDropListConnectedTo]="['todoList', 'doneList']"
+        [cdkDropListDisabled]="isCollapsed('DOING')"
+        (cdkDropListDropped)="drop($event, 'DOING')"
+      >
+        <div
+          class="card"
+          *ngFor="let task of doing; trackBy: trackById"
+          cdkDrag
+          [cdkDragData]="task"
+          (click)="openEdit(task)"
+        >
+          <button
+            class="drag-handle"
+            type="button"
+            cdkDragHandle
+            (click)="$event.stopPropagation()"
+            aria-label="Arrastar tarefa"
+            title="Arrastar"
+          >
+            ⋮⋮
+          </button>
+
+          <p class="card-title">{{ task.title }}</p>
+          <p class="card-desc" *ngIf="task.description">{{ task.description }}</p>
+
+          <div class="card-meta">
+            <span class="priority-badge" [ngClass]="priorityClass(task.priority)">
+              {{ priorityLabel(task.priority) }}
+            </span>
+
+            <span class="due-chip">{{ formatDueDate(task.dueDate) }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DONE -->
+    <section class="column done">
+      <div class="column-header" (click)="toggleColumn('DONE')">
+        <h3 class="column-title">CONCLUÍDA</h3>
+
+        <div class="column-count">
+          <span class="count-pill">{{ done.length }}</span>
+          <span>{{ isCollapsed('DONE') ? '▸' : '▾' }}</span>
+        </div>
+      </div>
+
+      <div
+        class="column-body"
+        [@collapse]="isCollapsed('DONE') ? 'closed' : 'open'"
+        cdkDropList
+        id="doneList"
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="['todoList', 'doingList']"
+        [cdkDropListDisabled]="isCollapsed('DONE')"
+        (cdkDropListDropped)="drop($event, 'DONE')"
+      >
+        <div
+          class="card"
+          *ngFor="let task of done; trackBy: trackById"
+          cdkDrag
+          [cdkDragData]="task"
+          (click)="openEdit(task)"
+        >
+          <button
+            class="drag-handle"
+            type="button"
+            cdkDragHandle
+            (click)="$event.stopPropagation()"
+            aria-label="Arrastar tarefa"
+            title="Arrastar"
+          >
+            ⋮⋮
+          </button>
+
+          <p class="card-title">{{ task.title }}</p>
+          <p class="card-desc" *ngIf="task.description">{{ task.description }}</p>
+
+          <div class="card-meta">
+            <span class="priority-badge" [ngClass]="priorityClass(task.priority)">
+              {{ priorityLabel(task.priority) }}
+            </span>
+
+            <span class="due-chip">{{ formatDueDate(task.dueDate) }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

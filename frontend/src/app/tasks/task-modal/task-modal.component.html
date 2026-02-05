@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>{{ data ? 'Editar Tarefa' : 'Nova Tarefa' }}</h2>
+
+<div mat-dialog-content [formGroup]="form">
+
+  <mat-form-field appearance="outline" style="width:100%">
+    <mat-label>Título</mat-label>
+    <input matInput formControlName="title" />
+    <mat-error *ngIf="form.controls.title.invalid">Título é obrigatório</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="width:100%">
+    <mat-label>Descrição</mat-label>
+    <textarea matInput rows="3" formControlName="description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="width:100%">
+    <mat-label>Data limite</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="dueDateDate" placeholder="dd/MM/aaaa" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error *ngIf="form.controls.dueDateDate.invalid">Data limite é obrigatória</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="width:100%">
+    <mat-label>Horário (24h)</mat-label>
+    <input matInput type="text" formControlName="dueDateTime" placeholder="HH:mm" inputmode="numeric" autocomplete="off"
+      (input)="onTimeInput()" />
+    <mat-error *ngIf="form.controls.dueDateTime.invalid">Horário inválido (use HH:mm)</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" style="width:100%">
+    <mat-label>Prioridade</mat-label>
+    <mat-select formControlName="priority">
+      <mat-option value="LOW">BAIXA</mat-option>
+      <mat-option value="MEDIUM">MÉDIA</mat-option>
+      <mat-option value="HIGH">ALTA</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container *ngIf="isEditMode">
+    <mat-form-field appearance="outline" style="width:100%">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="TODO">A FAZER</mat-option>
+        <mat-option value="DOING">EM ANDAMENTO</mat-option>
+        <mat-option value="DONE">CONCLUÍDA</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
+
+</div>
+
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Cancelar</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="form.invalid">Salvar</button>
+</div>
