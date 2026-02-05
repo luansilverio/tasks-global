@@ -1,1 +1,2 @@
-com\silverio\tasks\TaskControllerIT.class
+com\silverio\tasks\task\application\service\TaskServiceTest.class
+com\silverio\tasks\task\interfaces\rest\TaskControllerTest.class

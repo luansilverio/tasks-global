@@ -74,7 +74,7 @@ Frontend: http://localhost:4200
 ## Como rodar os testes (JUnit + Testcontainers)
 ```bash
 cd backend
-./mvnw test
+mvn test
 ```
 
 > Para testes com Testcontainers, o Docker precisa estar rodando.

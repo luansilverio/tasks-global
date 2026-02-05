@@ -4,13 +4,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.time.LocalDateTime;
+
+import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,6 +44,34 @@ public class GlobalExceptionHandler {
         ex.getMessage(),
         req.getRequestURI(),
         null);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+  }
+
+  @ExceptionHandler({ MethodArgumentTypeMismatchException.class, ConversionFailedException.class })
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<ApiError> handleTypeMismatch(Exception ex, HttpServletRequest request) {
+
+    // Se for o parâmetro "status", devolve uma mensagem bem clara
+    String mensagem = "Parâmetro inválido. Verifique os valores informados.";
+    String caminho = request.getRequestURI();
+
+    if (ex instanceof MethodArgumentTypeMismatchException matme) {
+      String param = matme.getName();
+      if ("status".equals(param)) {
+        mensagem = "Parâmetro 'status' inválido. Valores aceitos: TODO, DOING, DONE.";
+      } else {
+        mensagem = "Parâmetro '" + param + "' inválido.";
+      }
+    }
+    
+    var body = new ApiError(
+        Instant.now(),
+        HttpStatus.BAD_REQUEST.value(),
+        "Validação falhou",
+        mensagem,
+        caminho,
+        null);
+        
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
   }
 

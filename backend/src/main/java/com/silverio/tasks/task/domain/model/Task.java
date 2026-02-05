@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
-  private final TaskId id;
+  private TaskId id;
   private String title;
   private String description;
   private TaskStatus status;
@@ -15,13 +15,13 @@ public class Task {
   private boolean deleted;
 
   public Task(TaskId id,
-              String title,
-              String description,
-              TaskStatus status,
-              TaskPriority priority,
-              LocalDateTime dueDate,
-              Instant createdAt,
-              boolean deleted) {
+      String title,
+      String description,
+      TaskStatus status,
+      TaskPriority priority,
+      LocalDateTime dueDate,
+      Instant createdAt,
+      boolean deleted) {
     this.id = Objects.requireNonNull(id, "id é obrigatório");
     setTitle(title);
     this.description = description;
@@ -32,8 +32,16 @@ public class Task {
     this.deleted = deleted;
   }
 
+  public Task() {
+    createdAt = Instant.now();
+  }
+
   public static Task create(String title, String description, LocalDateTime dueDate, TaskPriority priority) {
     return new Task(TaskId.newId(), title, description, TaskStatus.TODO, priority, dueDate, Instant.now(), false);
+  }
+
+  public void setId(TaskId id) {
+    this.id = Objects.requireNonNull(id, "Id é obrigatório");
   }
 
   public void setTitle(String title) {
@@ -52,7 +60,8 @@ public class Task {
   }
 
   public void setPriority(TaskPriority priority) {
-    if (priority != null) this.priority = priority;
+    if (priority != null)
+      this.priority = priority;
   }
 
   public void setDueDate(LocalDateTime dueDate) {
@@ -63,12 +72,35 @@ public class Task {
     this.deleted = true;
   }
 
-  public TaskId getId() { return id; }
-  public String getTitle() { return title; }
-  public String getDescription() { return description; }
-  public TaskStatus getStatus() { return status; }
-  public TaskPriority getPriority() { return priority; }
-  public LocalDateTime getDueDate() { return dueDate; }
-  public Instant getCreatedAt() { return createdAt; }
-  public boolean isDeleted() { return deleted; }
+  public TaskId getId() {
+    return id;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public TaskStatus getStatus() {
+    return status;
+  }
+
+  public TaskPriority getPriority() {
+    return priority;
+  }
+
+  public LocalDateTime getDueDate() {
+    return dueDate;
+  }
+
+  public Instant getCreatedAt() {
+    return createdAt;
+  }
+
+  public boolean isDeleted() {
+    return deleted;
+  }
 }
