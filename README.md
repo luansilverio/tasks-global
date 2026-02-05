@@ -1,10 +1,10 @@
-# Tasks DDD (Java 17 + Spring Boot) + Angular Kanban + PostgreSQL (Docker)
+# Tasks-Global (Java 17 + Spring Boot) + Angular + PostgreSQL (Docker)
 
 Projeto completo com:
-- Backend: Java 17 + Spring Boot, DDD, Flyway, Swagger/OpenAPI (PT-BR), validação, erros em português, exclusão lógica (deleted).
+- Backend: Java 17 + Spring Boot, DDD, Flyway, Swagger/OpenAPI, validação e exclusão lógica (deleted).
 - Frontend: Angular + Material + CDK Drag&Drop (Kanban) + Modal + validação.
 - Banco: PostgreSQL via Docker Compose.
-- Testes: JUnit 5 + Spring Boot Test + Testcontainers (Postgres).
+- Testes: JUnit 5.
 
 ## Pré-requisitos (instalações)
 
@@ -45,7 +45,7 @@ Swagger UI: http://localhost:8080/swagger-ui.html
 OpenAPI JSON: http://localhost:8080/v3/api-docs
 
 ### 3) Rodar o frontend
-Em outro terminal:
+Em outro terminal, na raiz do projeto:
 ```bash
 cd frontend
 npm install
@@ -54,27 +54,22 @@ ng serve -o
 
 Frontend: http://localhost:4200
 
----N
-
 ## Regras importantes
 
 ### Exclusão lógica
 - Ao deletar uma task, o sistema marca `deleted=true`.
-- **Todas as consultas** ignoram tasks deletadas (não aparecem em listagem nem em busca por id).
 
 ### Endpoints principais
 - `POST /api/tarefas` criar
 - `GET /api/tarefas?status=TODO|DOING|DONE` listar (filtro opcional)
 - `PUT /api/tarefas/{id}` atualizar (campos parciais)
 - `DELETE /api/tarefas/{id}` exclusão lógica
-- `DELETE /api/tarefas/{id}/hard` exclusão física (opcional)
 
 ---
 
 ## Como rodar os testes (JUnit + Testcontainers)
+Na raiz do projeto:
 ```bash
 cd backend
 mvn test
 ```
-
-> Para testes com Testcontainers, o Docker precisa estar rodando.
